@@ -1,0 +1,20 @@
+{
+  "name": "thegunnapp",
+  "version": "0.2.6",
+  "description": "Web version of TheGunnApp",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": {
+    "name": "jiapingzeng"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "config": "^1.26.2",
+    "express": "^4.15.4",
+    "moment": "^2.18.1",
+    "pug": "^2.0.0-rc.4",
+    "request": "^2.82.0"
+  }
+}
