@@ -3,11 +3,14 @@ var config = require('config')
 var request = require('request')
 var moment = require('moment')
 var bodyParser = require('body-parser')
+var fs = require('fs')
+var path = require('path')
 
 var app = express()
 var port = process.env.PORT || 3000
 app.listen(port)
 app.set('view engine', 'pug')
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -17,11 +20,18 @@ var apiKey = process.env.GOOGLE_API_KEY ? process.env.GOOGLE_API_KEY : config.ge
 
 console.log('server started')
 
+if (!fs.existsSync('./public')) {
+    fs.mkdirSync('./public')
+}
+updateFile((err) => {
+    console.log(err)
+})
+
 app.get('/', (req, res, next) => {
     res.redirect('today')
 })
 
-app.get('/', (req, res, next) => {
+app.get('/index', (req, res, next) => {
     res.redirect('/')
 })
 
@@ -52,6 +62,16 @@ app.post('/list', (req, res, next) => {
     })
 })
 
+
+function updateFile(cb) {
+    getCalendar((data) => {
+        fs.writeFile('./public/schedule.json', data, (err) => {
+            if (err) cb(err)
+        })
+    }, (err) => {
+        cb(err)
+    })
+}
 
 function copy(o) {
     var output, v, key;
