@@ -64,8 +64,8 @@ app.post('/list', (req, res, next) => {
 
 
 function updateFile(cb) {
-    getCalendar((data) => {
-        fs.writeFile('./public/schedule.json', data, (err) => {
+    getSchedule((data) => {
+        fs.writeFile('./public/schedule.json', JSON.stringify(data.items), (err) => {
             if (err) cb(err)
         })
     }, (err) => {
